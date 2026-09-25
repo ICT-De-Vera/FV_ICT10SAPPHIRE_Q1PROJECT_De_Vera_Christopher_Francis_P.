@@ -209,13 +209,14 @@
                     <p>Please enter your item</p>
                 </div>
 
-            <h2 class="h4 mb-3 font-playfair" style="color: #5a3324;">Pre-Order Your Coffee</h2>
+            <h2 class="h4 mb-3 font-playfair" style="color: #5a3324;">Find Item sku number</h2>
             <form onsubmit="return false;">
-                <label class="form-label fw-bold">Select Coffee Type:</label>
+                <label class="form-label fw-bold">Enter Item:</label>
                 <div class="row g-3 mb-4">
                     <div class="col-6 col-sm-3">
-                        <input class="form-control" type="text" id="Skugen" aria-placeholder="Type the item you wish to view"
-                <button type="button" id="submitOrder" class="btn nav-cta w-100 mt-2" py-click="Skugen">Grab Sku number</button>
+                        <input class="form-control" type="text" id="Skugen" aria-placeholder="Type the item you wish to view">
+                        <button type="button" id="submitOrder" class="btn nav-cta w-100 mt-2" py-click="Skugen">Grab Sku number</button>
+                    </div>
             </form>
         </div>
     </div>
@@ -247,8 +248,14 @@
         const orderDateTime = document.getElementById("summaryOrderDateTime");
 
         submitOrder.addEventListener("click", () => {
+            const item = document.getElementById("Skugen").value.trim();
+            receiptSku.textContent = item
+                ? `${item.toUpperCase().replace(/\s+/g, "-")}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`
+                : "Please enter an item first.";
             const orderDate = new Date();
-            orderDateTime.textContent = `Order date/time: ${orderDate.toLocaleString()}`;
+            if (orderDateTime) {
+                orderDateTime.textContent = `Order date/time: ${orderDate.toLocaleString()}`;
+            }
         });
 
         const receiptObserver = new MutationObserver(() => {
